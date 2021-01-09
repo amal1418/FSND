@@ -1,7 +1,10 @@
 from datetime import datetime
-from flask_wtf import Form
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
+#from flask_wtf import Form
+from flask_wtf import Form  
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
 from wtforms.validators import DataRequired, AnyOf, URL
+import wtforms
+
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -88,6 +91,7 @@ class VenueForm(Form):
     image_link = StringField(
         'image_link'
     )
+ 
     genres = SelectMultipleField(
         # TODO implement enum restriction
         'genres', validators=[DataRequired()],
@@ -116,7 +120,15 @@ class VenueForm(Form):
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
-
+    website = StringField(
+        'website', validators=[URL()]
+    )
+    seeking_talent = BooleanField(
+        'seeking_talent'
+    )
+    seeking_description = StringField(
+        'seeking_description'
+    )
 class ArtistForm(Form):
     name = StringField(
         'name', validators=[DataRequired()]
@@ -216,5 +228,13 @@ class ArtistForm(Form):
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
-
+    website = StringField(
+        'website', validators=[URL()]
+    )
+    seeking_venue = BooleanField(
+        'seeking_venue'
+    )
+    seeking_description = StringField(
+        'seeking_description'
+    )
 # TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
