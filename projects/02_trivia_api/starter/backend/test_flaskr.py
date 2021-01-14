@@ -80,11 +80,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/50')
+        res = self.client().delete('/questions/52')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['deleted'], 50)
+        self.assertEqual(data['deleted'], 52)
 
     def test_404_if_question_dose_not_exist_when_delete(self):
         res = self.client().delete('/questions/1000')

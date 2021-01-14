@@ -45,19 +45,20 @@ def create_app(test_config=None):
   '''
     @app.route('/categories')
     def get_categories():
-        try:
-            categories = Category.query.all()
-            categories_dic = {}
-            for category in categories:
-                categories_dic[category.id] = category.type
+        categories = Category.query.all()
+        categories_dic = {}
+        for category in categories:
+            categories_dic[category.id] = category.type
 
-            return jsonify({
-              'success': True,
-              'categories': categories_dic,
-            '  total_categories': len(categories_dic)
-            })
-        except:
-          abort(404)
+        if (len(categories_dic) == 0):
+          abort(404)    
+
+        return jsonify({
+            'success': True,
+            'categories': categories_dic,
+            'total_categories': len(categories_dic)
+        })
+
     '''
   @TODO:
   including pagination (every 10 questions).
@@ -137,8 +138,8 @@ def create_app(test_config=None):
             question = Question(question=new_question, answer=new_answer,
                                 category=new_category, difficulty=new_difficulty)
             question.insert()
-            #selection = Question.query.order_by(Question.id).all()
-            #current_questions = paginate_questions(request, selection)
+            # selection = Question.query.order_by(Question.id).all()
+            # current_questions = paginate_questions(request, selection)
 
             return jsonify({
                 'success': True,
