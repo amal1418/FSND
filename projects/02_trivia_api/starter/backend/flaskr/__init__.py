@@ -51,7 +51,7 @@ def create_app(test_config=None):
             categories_dic[category.id] = category.type
 
         if (len(categories_dic) == 0):
-          abort(404)    
+            abort(404)
 
         return jsonify({
             'success': True,
@@ -67,7 +67,8 @@ def create_app(test_config=None):
 
   TEST: At this point, when you start the application
   you should see questions and categories generated,
-  ten questions per page and pagination at the bottom of the screen for three pages.
+  ten questions per page and pagination at the bottom of 
+  the screen for three pages.
   Clicking on the page numbers should update the questions.
   '''
     @app.route('/questions', methods=['GET'])
@@ -94,26 +95,23 @@ def create_app(test_config=None):
   @TODO:
   Create an endpoint to DELETE question using a question ID.
 
-  TEST: When you click the trash icon next to aquestion, the question will be removed.
+  TEST: When you click the trash icon next to aquestion, 
+  the question will be removed.
   This removal will persist in the database and when you refresh the page.
   '''
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
-        try:
-            question = Question.query.filter(
-                Question.id == question_id).one_or_none()
+        question = Question.query.filter(
+            Question.id == question_id).one_or_none()
 
-            if question is None:
-                abort(404)
+        if question is None:
+            abort(404)
 
-            question.delete()
+        question.delete()
 
-            return jsonify({
-                'deleted': question_id,
-            })
-
-        except:
-            abort(422)
+        return jsonify({
+            'deleted': question_id,
+        })
 
     '''
   @TODO:
@@ -122,7 +120,8 @@ def create_app(test_config=None):
   category, and difficulty score.
 
   TEST: When you submit a question on the "Add" tab,
-  the form will clear and the question will appear at the end of the last page
+  the form will clear and the question will appear at 
+  the end of the last page
   of the questions list in the "List" tab.
   '''
     @app.route('/questions', methods=['POST'])
@@ -132,14 +131,12 @@ def create_app(test_config=None):
         new_question = body.get('question', None)
         new_answer = body.get('answer', None)
         new_category = body.get('category', None)
-        new_difficulty = body.get('difficulty', None)
+        new_diff = body.get('difficulty', None)
 
         try:
             question = Question(question=new_question, answer=new_answer,
-                                category=new_category, difficulty=new_difficulty)
+                                category=new_category, difficulty=new_diff)
             question.insert()
-            # selection = Question.query.order_by(Question.id).all()
-            # current_questions = paginate_questions(request, selection)
 
             return jsonify({
                 'success': True,
@@ -147,7 +144,7 @@ def create_app(test_config=None):
                 'total_questions': len(Question.query.all()),
             })
 
-        except:
+        except Exception:
             abort(422)
 
     '''
@@ -180,7 +177,7 @@ def create_app(test_config=None):
                 'total_questions': len(selection.all()),
                 'current_category': None
             })
-        except:
+        except Exception:
             abort(404)
     '''
   @TODO:
@@ -202,8 +199,6 @@ def create_app(test_config=None):
         selection = Question.query.filter(
             Question.category == category_id).all()
         current_questions = paginate_questions(request, selection)
-
-        # questions_list = [question.format() for question in questions]
 
         return jsonify({
             'questions': current_questions,
@@ -254,7 +249,7 @@ def create_app(test_config=None):
                 'success': True,
                 'question': random_question
             })
-        except:
+        except Exception:
             abort(500)
     '''
   @TODO: 
