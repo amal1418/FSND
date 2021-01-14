@@ -52,6 +52,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['categories'])
         self.assertTrue(len(data['categories']))
 
+    def test_404_category_not_found(self):
+        res = self.client().post('/categories/10')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'resource not found')    
+
     def test_get_questions(self):
         res = self.client().get('/questions')
         data = json.loads(res.data)
@@ -72,13 +80,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/45')
+        res = self.client().delete('/questions/50')
         data = json.loads(res.data)
 
-        #question = Question.query.filter(Question.id == 38).one_or_none()
-
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['deleted'], 45)
+        self.assertEqual(data['deleted'], 50)
 
     def test_404_if_question_dose_not_exist_when_delete(self):
         res = self.client().delete('/questions/1000')
@@ -144,13 +150,16 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['question'])
 
-    def test_422_quiz(self):
+
+    def test_500_quiz(self):
         res = self.client().post('/quizzes', json={})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 500)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'internal server error')
+
+        
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

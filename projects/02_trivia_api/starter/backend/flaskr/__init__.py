@@ -45,17 +45,19 @@ def create_app(test_config=None):
   '''
     @app.route('/categories')
     def get_categories():
-        categories = Category.query.all()
-        categories_dic = {}
-        for category in categories:
-            categories_dic[category.id] = category.type
+        try:
+            categories = Category.query.all()
+            categories_dic = {}
+            for category in categories:
+                categories_dic[category.id] = category.type
 
-        return jsonify({
-            'success': True,
-            'categories': categories_dic,
-            'total_categories': len(categories_dic)
-        })
-
+            return jsonify({
+              'success': True,
+              'categories': categories_dic,
+            '  total_categories': len(categories_dic)
+            })
+        except:
+          abort(404)
     '''
   @TODO:
   including pagination (every 10 questions).
@@ -226,7 +228,6 @@ def create_app(test_config=None):
 
             quiz_category = body['quiz_category']['id']
             previous_questions = body['previous_questions']
-            #quiz_category_id = int(quiz_category['id'])
 
             if quiz_category is None:
                 abort(400)
@@ -240,9 +241,9 @@ def create_app(test_config=None):
             else:
                 questions = Question.query.all()
 
-            #questions_list = [question.format() for question in questions if question.id not in previous_questions]
             random_question = random.choice(questions).format()
-            while (random_question['id'] in previous_questions) and (len(previous_questions) != len(questions)):
+            while (random_question['id'] in previous_questions) and (
+                    len(previous_questions) != len(questions)):
                 random_question = random.choice(questions).format()
 
             if len(previous_questions) == len(questions):
