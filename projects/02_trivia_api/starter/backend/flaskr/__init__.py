@@ -135,13 +135,12 @@ def create_app(test_config=None):
             question = Question(question=new_question, answer=new_answer,
                                 category=new_category, difficulty=new_difficulty)
             question.insert()
-            selection = Question.query.order_by(Question.id).all()
-            current_questions = paginate_questions(request, selection)
+            #selection = Question.query.order_by(Question.id).all()
+            #current_questions = paginate_questions(request, selection)
 
             return jsonify({
                 'success': True,
                 'created': question.id,
-                'question': current_questions,
                 'total_questions': len(Question.query.all()),
             })
 

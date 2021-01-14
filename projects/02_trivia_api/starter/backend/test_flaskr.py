@@ -72,13 +72,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/43')
+        res = self.client().delete('/questions/45')
         data = json.loads(res.data)
 
         #question = Question.query.filter(Question.id == 38).one_or_none()
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['deleted'], 43)
+        self.assertEqual(data['deleted'], 45)
 
     def test_404_if_question_dose_not_exist_when_delete(self):
         res = self.client().delete('/questions/1000')
@@ -95,7 +95,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
-        self.assertTrue(len(data['question']))
 
     def test_405_if_question_creation_not_allowed(self):
         res = self.client().post('/questions/45', json=self.new_question)
