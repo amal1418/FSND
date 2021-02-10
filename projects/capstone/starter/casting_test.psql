@@ -1,0 +1,12 @@
+CREATE TABLE public.Actor (
+    id integer NOT NULL,
+    name text,
+    age integer,
+    gender text
+);
+
+CREATE TABLE public.Movie (
+    id integer NOT NULL,
+    title text,
+    release_date text
+);
